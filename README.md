@@ -1,201 +1,49 @@
-<p align="center"><img src="https://raw.githubusercontent.com/beautifier/js-beautify/7db71fc/web/wordmark-light.svg" height="200px" align="center" alt="JS Beautifier"/></p>
+# js-beautify for Go
 
-<p align="center"><a href="https://github.com/beautifier/js-beautify/actions/workflows/main.yml"><img alt="CI" src="https://github.com/beautifier/js-beautify/workflows/CI/badge.svg"/></a>&#32;<a href="https://greenkeeper.io/" target="_blank"><img alt="Greenkeeper badge" src="https://badges.greenkeeper.io/beautifier/js-beautify.svg"/></a></p>
-
-<p align="center"><a href="https://pypi.python.org/pypi/jsbeautifier" target="_blank"><img alt="PyPI version" src="https://img.shields.io/pypi/v/jsbeautifier.svg"/></a>&#32;<a href="https://cdnjs.com/libraries/js-beautify" target="_blank"><img alt="CDNJS version" src="https://img.shields.io/cdnjs/v/js-beautify.svg"/></a>&#32;<a href="https://www.npmjs.com/package/js-beautify" target="_blank"><img alt="NPM @latest" src="https://img.shields.io/npm/v/js-beautify.svg"/></a>&#32;<a href="https://www.npmjs.com/package/js-beautify?activeTab=versions" target="_blank"><img alt="NPM @next" src="https://img.shields.io/npm/v/js-beautify/next.svg"/></a></p>
-
-<p align="center"><a href="https://gitter.im/beautifier/js-beautify?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge" target="_blank"><img alt="Join the chat at https://gitter.im/beautifier/js-beautify" src="https://badges.gitter.im/Join%20Chat.svg"></a>&#32;<a href="https://twitter.com/intent/user?screen_name=js_beautifier" target="_blank"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/js_beautifier.svg?style=social&label=Follow"/></a></p>
-
-<p align="center"><a href="https://www.npmjs.org/package/js-beautify" target="_blank"><img alt="NPM stats" src=https://nodei.co/npm/js-beautify.svg?downloadRank=true&downloads=true"/></a></p>
-
-This little beautifier will reformat and re-indent bookmarklets, ugly
-JavaScript, unpack scripts packed by Dean Edward’s popular packer,
-as well as partly deobfuscate scripts processed by the npm package
-[javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator).
-
-Open [beautifier.io](https://beautifier.io/) to try it out.  Options are available via the UI.
-
-
-# Contributors Needed
-I'm putting this front and center above because existing owners have very limited time to work on this project currently.
-This is a popular project and widely used but it desperately needs contributors who have time to commit to fixing both
-customer facing bugs and underlying problems with the internal design and implementation.
-
-If you are interested, please take a look at the [CONTRIBUTING.md](https://github.com/beautifier/js-beautify/blob/main/CONTRIBUTING.md) then fix an issue marked with the ["Good first issue"](https://github.com/beautifier/js-beautify/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) label and submit a PR. Repeat as often as possible.  Thanks!
-
+A Go port of [js-beautify](https://github.com/beautifier/js-beautify) 2.0.3: the JavaScript, CSS and
+HTML beautifiers and the `js-beautify`, `css-beautify` and `html-beautify` commands. It produces the
+same output as the JavaScript release, byte for byte, including the options it accepts, the
+`.jsbeautifyrc`, environment and EditorConfig settings the commands read, and the messages they print.
+The module needs nothing beyond the Go standard library.
 
 # Installation
 
-You can install the beautifier for Node.js or Python.
-
-## Node.js JavaScript
-
-You may install the NPM package `js-beautify`. When installed globally, it provides an executable `js-beautify` script. As with the Python script, the beautified result is sent to `stdout` unless otherwise configured.
-
-```bash
-$ npm -g install js-beautify
-$ js-beautify foo.js
+```sh
+go get github.com/beautifier/js-beautify-go
+go install github.com/beautifier/js-beautify-go/cmd/...@latest   # js-beautify, css-beautify, html-beautify
 ```
-
-You can also use `js-beautify` as a `node` library (install locally, the `npm` default):
-
-```bash
-$ npm install js-beautify
-```
-
-## Node.js JavaScript (vNext)
-
-The above install the latest stable release. To install beta or RC versions:
-
-```bash
-$ npm install js-beautify@next
-```
-
-## Web Library
-The beautifier can be added on your page as web library.
-
-JS Beautifier is hosted on two CDN services: [cdnjs](https://cdnjs.com/libraries/js-beautify) and rawgit.
-
-To pull the latest version from one of these services include one set of the script tags below in your document:
-```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/2.0.3/beautify.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/2.0.3/beautify-css.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/2.0.3/beautify-html.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/2.0.3/beautify.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/2.0.3/beautify-css.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/2.0.3/beautify-html.min.js"></script>
-```
-
-Example usage of a JS tag in html:
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <body>
-
-. . .
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/2.0.3/beautify.min.js"></script>
-    <script src="script.js"></script>
-  </body>
-</html>
-```
-Older versions are available by changing the version number.
-
-Disclaimer: These are free services, so there are [no uptime or support guarantees](https://github.com/rgrove/rawgit/wiki/Frequently-Asked-Questions#i-need-guaranteed-100-uptime-should-i-use-cdnrawgitcom).
-
-
-## Python
-To install the Python version of the beautifier:
-
-```bash
-$ pip install jsbeautifier
-```
-Unlike the JavaScript version, the Python version can only reformat JavaScript. It does not work against HTML or CSS files, but you can install _css-beautify_ for CSS:
-
-```bash
-$ pip install cssbeautifier
-```
-Note: This project no longer supports Python 2.
 
 # Usage
-You can beautify JavaScript using JS Beautifier in your web browser, or on the command-line using Node.js or Python.
 
-## Web Browser
-Open [beautifier.io](https://beautifier.io/).  Options are available via the UI.
+## Library
 
-## Web Library
-After you embed the `<script>` tags in your `html` file, they expose three functions: `js_beautify`, `css_beautify`, and `html_beautify` 
+```go
+import beautify "github.com/beautifier/js-beautify-go"
 
-Example usage of beautifying a json string:
-
-```js
-const options = { indent_size: 2, space_in_empty_paren: true }
-
-const dataObj = {completed: false,id: 1,title: "delectus aut autem",userId: 1,}
-
-const dataJson = JSON.stringify(dataObj)
-
-js_beautify(dataJson, options)
-
-/* OUTPUT
-{
-  "completed": false,
-  "id": 1,
-  "title": "delectus aut autem",
-  "userId": 1,
-}
-*/
+out, err := beautify.JS(source, map[string]any{"indent_size": 2, "brace_style": "expand"})
+css, err := beautify.CSS(source, nil)
+html, err := beautify.HTML(source, map[string]any{"wrap_attributes": "force", "js": map[string]any{"indent_size": 2}})
 ```
 
-## Node.js JavaScript
+Options are the JavaScript options object: a `map[string]any` holding JSON-typed values (`bool`,
+`float64`, `string`, `[]any`, `map[string]any`, `nil`). Names may use dashes or underscores, values are
+coerced as the JavaScript release coerces them, and an invalid value returns the same error message.
 
-When installed globally, the beautifier provides an executable `js-beautify` script. The beautified result is sent to `stdout` unless otherwise configured.
+## Command line
 
-```bash
-$ js-beautify foo.js
+```sh
+js-beautify foo.js
+css-beautify -r styles/*.css
+html-beautify --wrap-attributes force -o out.html index.html
+cat foo.js | js-beautify -s 2 -
 ```
 
-To use `js-beautify` as a `node` library (after install locally), import and call the appropriate beautifier method for JavaScript (JS), CSS, or HTML.  All three method signatures are `beautify(code, options)`. `code` is the string of code to be beautified. options is an object with the settings you would like used to beautify the code.
-
-The configuration option names are the same as the CLI names but with underscores instead of dashes.  For example, `--indent-size 2 --space-in-empty-paren` would be `{ indent_size: 2, space_in_empty_paren: true }`.
-
-```js
-var beautify = require('js-beautify/js').js,
-    fs = require('fs');
-
-fs.readFile('foo.js', 'utf8', function (err, data) {
-    if (err) {
-        throw err;
-    }
-    console.log(beautify(data, { indent_size: 2, space_in_empty_paren: true }));
-});
-```
-
-If you are using ESM Imports, you can import `js-beautify` like this:
-
-```js
-// 'beautify' can be any name here.
-import beautify from 'js-beautify';
-
-beautify.js(data, options);
-beautify.html(data, options);
-beautify.css(data, options);
-```
-
-## Python
-After installing, to beautify using Python:
-
-```bash
-$ js-beautify file.js
-```
-
-Beautified output goes to `stdout` by default.
-
-To use `jsbeautifier` as a library is simple:
-
-```python
-import jsbeautifier
-res = jsbeautifier.beautify('your JavaScript string')
-res = jsbeautifier.beautify_file('some_file.js')
-```
-
-...or, to specify some options:
-
-```python
-opts = jsbeautifier.default_options()
-opts.indent_size = 2
-opts.space_in_empty_paren = True
-res = jsbeautifier.beautify('some JavaScript', opts)
-```
-
-The configuration option names are the same as the CLI names but with underscores instead of dashes.  The example above would be set on the command-line as `--indent-size 2 --space-in-empty-paren`.
-
+`beautify.CLI(name, args, stdin, stdout, stderr)` runs any of the three commands in-process and returns
+the exit status.
 
 # Options
 
-These are the command-line flags for both Python and JS scripts:
+These are the command-line flags of the commands:
 
 ```text
 CLI Options:
@@ -238,7 +86,7 @@ Beautifier Options:
   --templating                      List of templating languages (auto,django,erb,handlebars,php,smarty,angular) ["auto"] auto = none in JavaScript, all in HTML
 ```
 
-Which correspond to the underscored option keys for both library interfaces
+Which correspond to the underscored option keys of the library functions
 
 **defaults per CLI options**
 ```json
@@ -279,14 +127,12 @@ Which correspond to the underscored option keys for both library interfaces
 }
 ```
 
-Notice not all defaults are exposed via the CLI.  Historically, the Python and
-JS APIs have not been 100% identical. There are still a
-few other additional cases keeping us from 100% API-compatibility.
+Notice not all defaults are exposed via the CLI.
 
 
-## Loading settings from environment or .jsbeautifyrc (JavaScript-Only)
+## Loading settings from environment or .jsbeautifyrc
 
-In addition to CLI arguments, you may pass config to the JS executable via:
+In addition to CLI arguments, you may pass config to the commands via:
 
  * any `jsbeautify_`-prefixed environment variables
  * a `JSON`-formatted file indicated by the `--config` parameter
@@ -297,8 +143,7 @@ Configuration sources provided earlier in this stack will override later ones.
 ## Setting inheritance and Language-specific overrides
 
 The settings are a shallow tree whose values are inherited for all languages, but
-can be overridden.  This works for settings passed directly to the API in either implementation.
-In the JavaScript implementation, settings loaded from a config file, such as .jsbeautifyrc, can also use inheritance/overriding.
+can be overridden.  This works for settings passed directly to the library functions and for settings loaded from a config file, such as .jsbeautifyrc.
 
 Below is an example configuration tree showing all the supported locations
 for language override nodes.  We'll use `indent_size` to discuss how this configuration would behave, but any number of settings can be inherited or overridden:
@@ -344,13 +189,8 @@ In addition to the `js-beautify` executable, `css-beautify` and `html-beautify`
 are also provided as an easy interface into those scripts. Alternatively,
 `js-beautify --css` or `js-beautify --html` will accomplish the same thing, respectively.
 
-```js
-// Programmatic access
-var beautify_js = require('js-beautify'); // also available under "js" export
-var beautify_css = require('js-beautify').css;
-var beautify_html = require('js-beautify').html;
-
-// All methods accept two arguments, the string to be beautified, and an options object.
+```go
+// Programmatic access: beautify.JS, beautify.CSS and beautify.HTML all take the source and an options map.
 ```
 
 The CSS & HTML beautifiers are much simpler in scope, and possess far fewer options.
@@ -439,11 +279,11 @@ You are free to use this in any way you want, in case you find this useful or wo
 
 * Created by Einar Lielmanis, <einar@beautifier.io>
 * Python version flourished by Stefano Sanfilippo <a.little.coder@gmail.com>
-* Command-line for node.js by Daniel Stockman <daniel.stockman@gmail.com>
+* Command-line by Daniel Stockman <daniel.stockman@gmail.com>
 * Maintained and expanded by Liam Newman <bitwiseman@beautifier.io>
 
 Thanks also to Jason Diamond, Patrick Hof, Nochum Sossonko, Andreas Schneider, Dave
 Vasilevsky, Vital Batmanov, Ron Baldwin, Gabriel Harrison, Chris J. Shull,
 Mathias Bynens, Vittorio Gambaletta and others.
 
-(README.md: js-beautify@2.0.3)
+(README.md: js-beautify@2.0.3, Go port)
